@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Crop Farming System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CONNECT CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>🌾 Smart Crop Farming System</h1>
+  <p>AI-powered farming guidance for India</p>
+</header>
+
+<nav>
+  <a href="#">Services</a>
+  <a href="#">AI Assistant</a>
+  <a href="#">Detection</a>
+  <a href="#">Contact</a>
+</nav>
+
+<section>
+
+  <!-- FLIP CARD 1 -->
+  <div class="flip-container reveal">
+    <div class="flip-card">
+      <div class="flip-face">
+        <h2>🚜 Problem</h2>
+        <p>Farmers lack real-time, scientific and language-friendly advice.</p>
+      </div>
+      <div class="flip-face flip-back">
+        <h2>💡 Solution</h2>
+        <p>AI-powered, multilingual advisory with instant insights.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLIP CARD 2 -->
+  <div class="flip-container reveal">
+    <div class="flip-card">
+      <div class="flip-face">
+        <h2>🌱 Features</h2>
+        <ul>
+          <li>Crop recommendation</li>
+          <li>Weather alerts</li>
+          <li>Disease detection</li>
+        </ul>
+      </div>
+      <div class="flip-face flip-back">
+        <h2>📈 Impact</h2>
+        <p>20–30% yield improvement using ICT advisories.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI ASSISTANT -->
+  <div class="flip-container reveal">
+    <div class="flip-card">
+      <div class="flip-face">
+        <h2>🤖 AI Assistant</h2>
+        <input type="text" placeholder="Ask your farming question">
+        <button>Send</button>
+      </div>
+      <div class="flip-face flip-back">
+        <h2>🎤 Voice Support</h2>
+        <p>Coming soon for low-literacy farmers</p>
+      </div>
+    </div>
+  </div>
+<form id="aiForm">
+  <input type="text" name="question" placeholder="Ask your farming question" required>
+  <button type="submit">Send</button>
+</form>
+<p id="aiResult"></p>
+
+
+
+<form id="diseaseForm" enctype="multipart/form-data">
+  <input type="file" name="image" required>
+  <button type="submit">Analyze</button>
+</form>
+<p id="diseaseResult"></p>
+
+
+<form id="weatherForm">
+  <input type="text" id="city" placeholder="Enter City Name" required>
+  <button>Get Weather</button>
+</form>
+
+<p id="weatherResult"></p>
+ s
+<form id="cropForm">
+  <h3>🌾 Crop Recommendation</h3>
+  <label>N (Nitrogen): <input type="number" id="N" name="N" required></label>
+  <label>P (Phosphorus): <input type="number" id="P" name="P" required></label>
+  <label>K (Potassium): <input type="number" id="K" name="K" required></label>
+  <label>Temperature (°C): <input type="number" id="temp" name="temperature" step="0.1" required></label>
+  <label>Humidity (%): <input type="number" id="hum" name="humidity" step="0.1" required></label>
+  <label>pH: <input type="number" id="ph" name="ph" step="0.1" required></label>
+  <label>Rainfall (mm): <input type="number" id="rain" name="rainfall" step="0.1" required></label>
+  <button type="submit">Recommend Crop</button>
+</form>
+
+<p id="cropResult"></p>
+
+
+<form id="fertilizerForm">
+  <input type="text" id="crop" placeholder="Crop Name" required>
+  <input type="number" id="fn" placeholder="Nitrogen" required>
+  <input type="number" id="fp" placeholder="Phosphorus" required>
+  <input type="number" id="fk" placeholder="Potassium" required>
+  <button>Recommend Fertilizer</button>
+</form>
+
+<p id="fertilizerResult"></p>
+
+  <!-- UPLOAD -->
+  <div class="flip-container reveal">
+    <div class="flip-card">
+      <div class="flip-face upload">
+        <h2>📸 Disease Detection</h2>
+        <input type="file">
+        <button>Analyze</button>
+      </div>
+      <div class="flip-face flip-back">
+        <h2>🧠 AI Analysis</h2>
+        <p>CNN-based disease detection model</p>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Move scripts here so they run after DOM is ready -->
+<script>
+document.getElementById("cropForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const data = {
+    N: +N.value,
+    P: +P.value,
+    K: +K.value,
+    temperature: +temp.value,
+    humidity: +hum.value,
+    ph: +ph.value,
+    rainfall: +rain.value
+  };
+
+  const res = await fetch("/predict-crop", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+  cropResult.innerText = "🌾 Recommended Crop: " + result.crop;
+});
+</script>
+<script>
+document.getElementById("weatherForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const city = document.getElementById("city").value;
+
+  const res = await fetch("/weather", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({city})
+  });
+
+  const data = await res.json();
+
+  weatherResult.innerText = data.error
+    ? data.error
+    : `🌦️ ${data.description} | 🌡️ ${data.temperature}°C | 💧 ${data.humidity}%`;
+});
+</script>
+<script>
+document.getElementById("fertilizerForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const data = {
+    crop: crop.value,
+    N: +fn.value,
+    P: +fp.value,
+    K: +fk.value
+  };
+
+  const res = await fetch("/predict-fertilizer", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+  fertilizerResult.innerText =
+    "🌱 Recommended Fertilizer: " + result.fertilizer;
+});
+</script>
+
+</section>
+
+<footer>
+  <p>© 2025 Smart Crop Advisory 🌾</p>
+</footer>
+
+</body>
+</html>

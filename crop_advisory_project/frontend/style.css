@@ -1,0 +1,163 @@
+:root{
+  --green:#1c7c54;
+  --accent:#73e2a7;
+  --dark:#1b512d;
+  --bg:#f4fff8;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:'Segoe UI', sans-serif;
+  background:var(--bg);
+  color:#333;
+  line-height:1.6;
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,var(--green),var(--accent));
+  color:white;
+  text-align:center;
+  padding:60px 20px;
+}
+
+header h1{
+  font-size:2.6rem;
+}
+
+header p{
+  margin-top:10px;
+  opacity:0.9;
+}
+
+/* NAVBAR */
+nav{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:15px;
+  background:#fff;
+  box-shadow:0 6px 20px rgba(0,0,0,0.1);
+}
+
+nav a{
+  padding:14px 20px;
+  text-decoration:none;
+  font-weight:600;
+  color:var(--green);
+  transition:0.3s;
+}
+
+nav a:hover{
+  background:var(--green);
+  color:white;
+  border-radius:6px;
+}
+
+/* MAIN SECTION */
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+}
+
+/* SCROLL REVEAL */
+.reveal{
+  opacity:0;
+  transform:translateY(50px);
+  animation:reveal 1s ease forwards;
+  animation-timeline:view();
+  animation-range:entry 0% cover 30%;
+}
+
+@keyframes reveal{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* 3D FLIP CARD */
+.flip-container{
+  perspective:1000px;
+  margin-bottom:35px;
+}
+
+.flip-card{
+  position:relative;
+  width:100%;
+  min-height:230px;
+  transform-style:preserve-3d;
+  transition:transform 0.8s ease;
+}
+
+.flip-container:hover .flip-card{
+  transform:rotateY(180deg);
+}
+
+.flip-face{
+  position:absolute;
+  width:100%;
+  height:100%;
+  padding:25px;
+  border-radius:16px;
+  background:white;
+  box-shadow:0 12px 30px rgba(0,0,0,0.1);
+  backface-visibility:hidden;
+}
+
+.flip-back{
+  transform:rotateY(180deg);
+  background:linear-gradient(135deg,var(--green),var(--accent));
+  color:white;
+}
+
+/* INPUTS & BUTTONS */
+input,
+textarea{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:1rem;
+}
+
+button{
+  margin-top:14px;
+  padding:12px 30px;
+  border:none;
+  border-radius:30px;
+  background:var(--green);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:var(--dark);
+  box-shadow:0 0 15px rgba(28,124,84,0.6);
+}
+
+/* UPLOAD */
+.upload{
+  border:2px dashed var(--green);
+  text-align:center;
+}
+
+/* FOOTER */
+footer{
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:20px;
+  margin-top:40px;
+}
+
+
